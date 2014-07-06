@@ -6,6 +6,7 @@ import com.vaadin.shared.ui.Connect;
 import com.google.gwt.core.client.GWT;
 
 @Connect(AutocompleteField.class)
+@SuppressWarnings("serial")
 public class AutocompleteConnector extends AbstractComponentConnector {
   
   @Override

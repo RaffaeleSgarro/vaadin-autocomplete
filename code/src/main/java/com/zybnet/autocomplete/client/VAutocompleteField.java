@@ -75,7 +75,7 @@ public class VAutocompleteField extends Composite {
 
         @Override
         public String getReplacementString() {
-          return src.getDisplayString() + ":::::ASDF";
+          return src.getDisplayString();
         }
       });
     }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -12,10 +13,12 @@ import com.zybnet.autocomplete.shared.SuggestionImpl;
 public class VAutocompleteField extends Composite {
 
   public static final String CLASSNAME = "v-autocomplete";
+  public static final int DELAY_MS = 300;
   
   private final SuggestOracle oracle = new SuggestOracleImpl();
   private final SuggestBox suggestBox;
   
+  private Timer sendQueryToServer = null;
   private QueryListener queryListener = null;
   private List<SuggestionImpl> suggestions = Collections.emptyList();
   private boolean isInitiatedFromServer = false;
@@ -37,9 +40,28 @@ public class VAutocompleteField extends Composite {
         callback.onSuggestionsReady(request, response);
       } else {
         // send event to the server side
-        if (queryListener != null) queryListener.handleQuery(request.getQuery());
+        maybeInvokeQueryListenerLater(request.getQuery());
       }
     }
+  }
+  
+  private void maybeInvokeQueryListenerLater(final String query) {
+    
+    if (sendQueryToServer != null) {
+      sendQueryToServer.cancel();
+    }
+    
+    sendQueryToServer = new Timer() {
+      @Override
+      public void run() {
+        sendQueryToServer = null;
+        if (queryListener != null && query != null && query.equals(suggestBox.getText())) {
+          queryListener.handleQuery(query);
+        }
+      }
+    };
+    
+    sendQueryToServer.schedule(DELAY_MS);
   }
   
   private List<SuggestOracle.Suggestion> buildSuggestions(List<SuggestionImpl> in) {
@@ -53,7 +75,7 @@ public class VAutocompleteField extends Composite {
 
         @Override
         public String getReplacementString() {
-          return src.getDisplayString();
+          return src.getDisplayString() + ":::::ASDF";
         }
       });
     }

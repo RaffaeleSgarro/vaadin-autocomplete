@@ -7,7 +7,11 @@
     -->
 
     <!-- Inherit DefaultWidgetSet -->
+    <inherits name='com.google.gwt.user.theme.standard.Standard'/>
     <inherits name="com.vaadin.DefaultWidgetSet" /> 
+    
+    <source path="shared" />
+    <source path="client" />
 
     <!--
      Uncomment the following to compile the widgetset for one browser only.

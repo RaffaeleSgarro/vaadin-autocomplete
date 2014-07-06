@@ -2,7 +2,7 @@ Vaadin autocomplete addon
 =========================
 
 To start the demo application, launch the following command in the `code`
-directory:
+directory and then visit http://localhost:8080/app :
 
     # Compiles the widgetset. Only needed the first time
     mvn package

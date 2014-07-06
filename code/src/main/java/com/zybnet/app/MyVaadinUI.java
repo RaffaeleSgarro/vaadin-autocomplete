@@ -2,6 +2,7 @@ package com.zybnet;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.zybnet.autocomplete.*;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -27,14 +28,9 @@ public class MyVaadinUI extends UI
         final VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
         setContent(layout);
-        
-        Button button = new Button("Click Me");
-        button.addClickListener(new Button.ClickListener() {
-            public void buttonClick(ClickEvent event) {
-                layout.addComponent(new Label("Thank you for clicking"));
-            }
-        });
-        layout.addComponent(button);
+        AutocompleteField search = new AutocompleteField();
+        search.setCaption("Search 'java'");
+        layout.addComponent(search);
     }
 
 }

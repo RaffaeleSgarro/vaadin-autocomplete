@@ -24,7 +24,8 @@ import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 public class MyVaadinUI extends UI {
 
   private final VerticalLayout layout = new VerticalLayout();
-
+  private final AutocompleteField search = new AutocompleteField();
+  
   @WebServlet(value = "/*", asyncSupported = true)
   @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class, widgetset = "com.zybnet.app.AppWidgetSet")
   public static class Servlet extends VaadinServlet {
@@ -37,7 +38,6 @@ public class MyVaadinUI extends UI {
     layout.setSpacing(true);
     setContent(layout);
 
-    AutocompleteField search = new AutocompleteField();
     search.setDelay(200);
     search.setWidth("400px");
     search.setCaption("Search 'java'");
@@ -62,8 +62,16 @@ public class MyVaadinUI extends UI {
     
     Button setLongDelayBtn = new Button("Set long search delay");
     setLongDelayBtn.addClickListener(new UpdateDelay(search, 1000));
+    
+    Button advertiseTextBtn = new Button("What's in the box?");
+    advertiseTextBtn.addClickListener(new Button.ClickListener() {
+      @Override
+      public void buttonClick(ClickEvent event) {
+        Notification.show("Showing text: " + search.getText());
+      }
+    });
 
-    layout.addComponents(search, setShortDelayBtn, setLongDelayBtn);
+    layout.addComponents(search, setShortDelayBtn, setLongDelayBtn, advertiseTextBtn);
   }
   
   private static class UpdateDelay implements Button.ClickListener {

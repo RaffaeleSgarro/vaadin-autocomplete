@@ -48,6 +48,7 @@ public class AutocompleteField extends AbstractField<String> implements Autocomp
 
   @Override
   public void onSuggestionPicked(AutocompleteFieldSuggestion suggestion) {
+    setText(suggestion.getDisplayString());
     if (suggestionPickedListener != null) suggestionPickedListener.onSuggestionPicked(suggestion);
   }
   
@@ -57,5 +58,18 @@ public class AutocompleteField extends AbstractField<String> implements Autocomp
 
   public void setDelay(int delayMillis) {
     getState().delayMillis = delayMillis;
+  }
+  
+  public void setText(String text) {
+    getState().text = text;
+  }
+  
+  public String getText() {
+    return getState().text;
+  }
+
+  @Override
+  public void onTextValueChanged(String text) {
+    getState().text = text;
   }
 }

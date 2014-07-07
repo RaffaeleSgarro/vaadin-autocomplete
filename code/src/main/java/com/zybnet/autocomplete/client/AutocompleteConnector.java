@@ -15,11 +15,15 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 @Connect(AutocompleteField.class)
 @SuppressWarnings("serial")
-public class AutocompleteConnector extends AbstractComponentConnector implements VAutocompleteField.QueryListener, SelectionHandler<Suggestion> {
+public class AutocompleteConnector extends AbstractComponentConnector implements VAutocompleteField.QueryListener, VAutocompleteField.TextChangeListener, SelectionHandler<Suggestion> {
+  
+  private final AutocompleteServerRpc serverComponent;
   
   public AutocompleteConnector() {
+    serverComponent = RpcProxy.create(AutocompleteServerRpc.class, this);
     getWidget().setQueryListener(this);
     getWidget().addSelectionHandler(this);
+    getWidget().addTextChangeHandler(this);
   }
   
   @Override
@@ -46,6 +50,11 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
   private void updateDelayMillis() {
     getWidget().setDelayMillis(getState().delayMillis);
   }
+  
+  @OnStateChange("text")
+  private void updateDisplayedText() {
+    getWidget().setDisplayedText(getState().text);
+  }
 
   @Override
   public void handleQuery(String query) {
@@ -55,6 +64,11 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
   @Override
   public void onSelection(SelectionEvent<Suggestion> event) {
     AutocompleteFieldSuggestion suggestion = ((OracleSuggestionImpl) event.getSelectedItem()).getWrappedSuggestion();
-    RpcProxy.create(AutocompleteServerRpc.class, this).onSuggestionPicked(suggestion);
+    serverComponent.onSuggestionPicked(suggestion);
+  }
+
+  @Override
+  public void onTextChange(String text) {
+    serverComponent.onTextValueChanged(text);
   }
 }

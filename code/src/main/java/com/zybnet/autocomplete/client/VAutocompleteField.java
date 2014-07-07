@@ -15,11 +15,11 @@ import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 public class VAutocompleteField extends Composite {
 
   public static final String CLASSNAME = "v-autocomplete";
-  public static final int DELAY_MS = 300;
   
   private final SuggestOracle oracle = new SuggestOracleImpl();
   private final SuggestBox suggestBox;
   
+  private int delayMillis = 300;
   private Timer sendQueryToServer = null;
   private QueryListener queryListener = null;
   private List<AutocompleteFieldSuggestion> suggestions = Collections.emptyList();
@@ -63,7 +63,7 @@ public class VAutocompleteField extends Composite {
       }
     };
     
-    sendQueryToServer.schedule(DELAY_MS);
+    sendQueryToServer.schedule(delayMillis);
   }
   
   private List<SuggestOracle.Suggestion> wrapSuggestions(List<AutocompleteFieldSuggestion> in) {
@@ -93,6 +93,10 @@ public class VAutocompleteField extends Composite {
   
   public interface QueryListener {
     void handleQuery(String query);
+  }
+
+  public void setDelayMillis(int delayMillis) {
+    this.delayMillis = delayMillis;
   }
   
 }

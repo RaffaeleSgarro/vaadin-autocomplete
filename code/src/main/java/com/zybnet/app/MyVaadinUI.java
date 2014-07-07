@@ -1,8 +1,6 @@
 package com.zybnet.app;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
@@ -40,6 +38,7 @@ public class MyVaadinUI extends UI {
     setContent(layout);
 
     AutocompleteField search = new AutocompleteField();
+    search.setDelay(200);
     search.setWidth("400px");
     search.setCaption("Search 'java'");
     
@@ -57,25 +56,34 @@ public class MyVaadinUI extends UI {
         handleSuggestionSelection(suggestion);
       }
     });
+    
+    Button setShortDelayBtn = new Button("Set short search delay");
+    setShortDelayBtn.addClickListener(new UpdateDelay(search, 200));
+    
+    Button setLongDelayBtn = new Button("Set long search delay");
+    setLongDelayBtn.addClickListener(new UpdateDelay(search, 1000));
 
-    Button btn = new Button("Click me!");
-    btn.addClickListener(new Button.ClickListener() {
-      @Override
-      public void buttonClick(ClickEvent event) {
-        onButtonClicked(event);
-      }
-    });
+    layout.addComponents(search, setShortDelayBtn, setLongDelayBtn);
+  }
+  
+  private static class UpdateDelay implements Button.ClickListener {
 
-    layout.addComponents(search, btn);
+    private final AutocompleteField search;
+    private final int delay;
+    
+    public UpdateDelay(AutocompleteField search, int delay) {
+      this.search = search;
+      this.delay = delay;
+    }
+
+    @Override
+    public void buttonClick(ClickEvent event) {
+      search.setDelay(delay);
+    }
   }
 
   protected void handleSuggestionSelection(AutocompleteFieldSuggestion suggestion) {
     Notification.show("Selected " + suggestion.getDisplayString() + ", ID: " + suggestion.getId());
-  }
-
-  private void onButtonClicked(ClickEvent event) {
-    DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
-    Notification.show("Server time " + df.format(new Date()));
   }
   
   private void handleSearchQuery(AutocompleteField field, String query) {

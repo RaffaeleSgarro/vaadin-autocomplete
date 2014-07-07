@@ -54,4 +54,8 @@ public class AutocompleteField extends AbstractField<String> implements Autocomp
   public void setSuggestionPickedListener(AutocompleteSuggestionPickedListener listener) {
     this.suggestionPickedListener = listener;
   }
+
+  public void setDelay(int delayMillis) {
+    getState().delayMillis = delayMillis;
+  }
 }

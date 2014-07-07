@@ -35,9 +35,11 @@ public class MyVaadinUI extends UI {
   protected void init(VaadinRequest request) {
 
     layout.setMargin(true);
+    layout.setSpacing(true);
     setContent(layout);
 
     AutocompleteField search = new AutocompleteField();
+    search.setWidth("400px");
     search.setCaption("Search 'java'");
     
     search.setQueryListener(new AutocompleteQueryListener() {

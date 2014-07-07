@@ -4,4 +4,5 @@ import com.vaadin.shared.communication.ServerRpc;
 
 public interface AutocompleteServerRpc extends ServerRpc {
   public void onQuery(String query);
+  public void onSuggestionPicked(AutocompleteFieldSuggestion suggestion);
 }

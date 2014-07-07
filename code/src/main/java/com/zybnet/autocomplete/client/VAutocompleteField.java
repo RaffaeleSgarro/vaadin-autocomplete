@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.zybnet.autocomplete.shared.SuggestionImpl;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 
 public class VAutocompleteField extends Composite {
 
@@ -20,7 +22,7 @@ public class VAutocompleteField extends Composite {
   
   private Timer sendQueryToServer = null;
   private QueryListener queryListener = null;
-  private List<SuggestionImpl> suggestions = Collections.emptyList();
+  private List<AutocompleteFieldSuggestion> suggestions = Collections.emptyList();
   private boolean isInitiatedFromServer = false;
   
   public VAutocompleteField() {
@@ -36,7 +38,7 @@ public class VAutocompleteField extends Composite {
       if (isInitiatedFromServer) {
         // invoke the callback
         Response response = new Response();
-        response.setSuggestions(buildSuggestions(suggestions));
+        response.setSuggestions(wrapSuggestions(suggestions));
         callback.onSuggestionsReady(request, response);
       } else {
         // send event to the server side
@@ -64,31 +66,25 @@ public class VAutocompleteField extends Composite {
     sendQueryToServer.schedule(DELAY_MS);
   }
   
-  private List<SuggestOracle.Suggestion> buildSuggestions(List<SuggestionImpl> in) {
+  private List<SuggestOracle.Suggestion> wrapSuggestions(List<AutocompleteFieldSuggestion> in) {
     List<SuggestOracle.Suggestion> out = new ArrayList<SuggestOracle.Suggestion>();
-    for (final SuggestionImpl src : in) {
-      out.add(new SuggestOracle.Suggestion(){
-        @Override
-        public String getDisplayString() {
-          return src.getDisplayString();
-        }
-
-        @Override
-        public String getReplacementString() {
-          return src.getDisplayString();
-        }
-      });
+    for (final AutocompleteFieldSuggestion wrappedSuggestion : in) {
+      out.add(new OracleSuggestionImpl(wrappedSuggestion));
     }
     return out;
     
   }
 
-  public void setSuggestions(List<SuggestionImpl> suggestions) {
+  public void setSuggestions(List<AutocompleteFieldSuggestion> suggestions) {
     isInitiatedFromServer = true;
     this.suggestions = Collections.unmodifiableList(suggestions);
     suggestBox.refreshSuggestionList();
     suggestBox.showSuggestionList();
     isInitiatedFromServer = false;
+  }
+  
+  public void addSelectionHandler(SelectionHandler<Suggestion> handler) {
+    suggestBox.addSelectionHandler(handler);
   }
   
   public void setQueryListener(QueryListener listener) {

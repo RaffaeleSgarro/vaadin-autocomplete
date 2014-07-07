@@ -8,6 +8,6 @@ import com.vaadin.shared.AbstractFieldState;
 @SuppressWarnings("serial")
 public class AutocompleteState extends AbstractFieldState {
   
-  public List<SuggestionImpl> suggestions = Collections.emptyList();
+  public List<AutocompleteFieldSuggestion> suggestions = Collections.emptyList();
   
 }

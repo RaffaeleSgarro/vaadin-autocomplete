@@ -3,7 +3,7 @@ package com.zybnet.autocomplete.shared;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class SuggestionImpl implements Serializable {
+public class AutocompleteFieldSuggestion implements Serializable {
   
   private Integer id;
   private String displayString;

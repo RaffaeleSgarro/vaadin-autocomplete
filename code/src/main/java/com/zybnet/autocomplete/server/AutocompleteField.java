@@ -6,12 +6,13 @@ import java.util.List;
 import com.vaadin.ui.AbstractField;
 import com.zybnet.autocomplete.shared.AutocompleteServerRpc;
 import com.zybnet.autocomplete.shared.AutocompleteState;
-import com.zybnet.autocomplete.shared.SuggestionImpl;
+import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 
 @SuppressWarnings("serial")
 public class AutocompleteField extends AbstractField<String> implements AutocompleteServerRpc{
   
   private AutocompleteQueryListener queryListener;
+  private AutocompleteSuggestionPickedListener suggestionPickedListener;
   
   public AutocompleteField() {
     registerRpc(this, AutocompleteServerRpc.class);
@@ -26,7 +27,7 @@ public class AutocompleteField extends AbstractField<String> implements Autocomp
     getState().suggestions = Collections.emptyList();
   }
 
-  public void setChoices(List<SuggestionImpl> suggestions) {
+  public void setChoices(List<AutocompleteFieldSuggestion> suggestions) {
     getState().suggestions = suggestions;
   }
   
@@ -43,5 +44,14 @@ public class AutocompleteField extends AbstractField<String> implements Autocomp
   
   public void setQueryListener(AutocompleteQueryListener listener) {
     this.queryListener = listener;
+  }
+
+  @Override
+  public void onSuggestionPicked(AutocompleteFieldSuggestion suggestion) {
+    if (suggestionPickedListener != null) suggestionPickedListener.onSuggestionPicked(suggestion);
+  }
+  
+  public void setSuggestionPickedListener(AutocompleteSuggestionPickedListener listener) {
+    this.suggestionPickedListener = listener;
   }
 }

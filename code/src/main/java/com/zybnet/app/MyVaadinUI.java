@@ -18,7 +18,8 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.zybnet.autocomplete.server.AutocompleteField;
 import com.zybnet.autocomplete.server.AutocompleteQueryListener;
-import com.zybnet.autocomplete.shared.SuggestionImpl;
+import com.zybnet.autocomplete.server.AutocompleteSuggestionPickedListener;
+import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 
 @Theme("mytheme")
 @SuppressWarnings("serial")
@@ -48,6 +49,14 @@ public class MyVaadinUI extends UI {
         handleSearchQuery(field, query);
       }
     });
+    
+    search.setSuggestionPickedListener(new AutocompleteSuggestionPickedListener() {
+      
+      @Override
+      public void onSuggestionPicked(AutocompleteFieldSuggestion suggestion) {
+        handleSuggestionSelection(suggestion);
+      }
+    });
 
     Button btn = new Button("Click me!");
     btn.addClickListener(new Button.ClickListener() {
@@ -60,6 +69,10 @@ public class MyVaadinUI extends UI {
     layout.addComponents(search, btn);
   }
 
+  protected void handleSuggestionSelection(AutocompleteFieldSuggestion suggestion) {
+    Notification.show("Selected " + suggestion.getDisplayString() + ", ID: " + suggestion.getId());
+  }
+
   private void onButtonClicked(ClickEvent event) {
     DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
     Notification.show("Server time " + df.format(new Date()));
@@ -69,9 +82,9 @@ public class MyVaadinUI extends UI {
     try {
       // Simulate a slow query
       Thread.sleep(1000);
-      List<SuggestionImpl> suggestions = new ArrayList<SuggestionImpl>();
+      List<AutocompleteFieldSuggestion> suggestions = new ArrayList<AutocompleteFieldSuggestion>();
       for (int i = 0; i < 10; i++) {
-        SuggestionImpl suggestion = new SuggestionImpl();
+        AutocompleteFieldSuggestion suggestion = new AutocompleteFieldSuggestion();
         suggestion.setId(i + 1);
         suggestion.setDisplayString((i + 1) + ": " + query);
         suggestions.add(suggestion);

@@ -1,6 +1,7 @@
 package com.zybnet.autocomplete.client;
 
 import com.zybnet.autocomplete.server.AutocompleteField;
+import com.zybnet.autocomplete.shared.AutocompleteClientRpc;
 import com.zybnet.autocomplete.shared.AutocompleteServerRpc;
 import com.zybnet.autocomplete.shared.AutocompleteState;
 import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
@@ -15,7 +16,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 @Connect(AutocompleteField.class)
 @SuppressWarnings("serial")
-public class AutocompleteConnector extends AbstractComponentConnector implements VAutocompleteField.QueryListener, VAutocompleteField.TextChangeListener, SelectionHandler<Suggestion> {
+public class AutocompleteConnector extends AbstractComponentConnector implements VAutocompleteField.QueryListener, VAutocompleteField.TextChangeListener, SelectionHandler<Suggestion>, AutocompleteClientRpc {
   
   private final AutocompleteServerRpc serverComponent;
   
@@ -24,6 +25,7 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
     getWidget().setQueryListener(this);
     getWidget().addSelectionHandler(this);
     getWidget().addTextChangeHandler(this);
+    registerRpc(AutocompleteClientRpc.class, this);
   }
   
   @Override
@@ -50,11 +52,6 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
   private void updateDelayMillis() {
     getWidget().setDelayMillis(getState().delayMillis);
   }
-  
-  @OnStateChange("text")
-  private void updateDisplayedText() {
-    getWidget().setDisplayedText(getState().text);
-  }
 
   @Override
   public void handleQuery(String query) {
@@ -70,5 +67,10 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
   @Override
   public void onTextChange(String text) {
     serverComponent.onTextValueChanged(text);
+  }
+
+  @Override
+  public void setText(String text) {
+    getWidget().setDisplayedText(text);
   }
 }

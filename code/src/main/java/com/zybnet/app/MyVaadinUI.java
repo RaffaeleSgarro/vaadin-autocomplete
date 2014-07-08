@@ -22,9 +22,10 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.BrowserFrame;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.zybnet.autocomplete.server.AutocompleteField;
 import com.zybnet.autocomplete.server.AutocompleteQueryListener;
 import com.zybnet.autocomplete.server.AutocompleteSuggestionPickedListener;
@@ -33,7 +34,6 @@ import com.zybnet.autocomplete.server.AutocompleteSuggestionPickedListener;
 @SuppressWarnings("serial")
 public class MyVaadinUI extends UI {
 
-  private final VerticalLayout layout = new VerticalLayout();
   private final AutocompleteField<WikipediaPage> search = new AutocompleteField<WikipediaPage>();
   private final Button createPageButton = new Button("No result found. Create Page!");
   private final BrowserFrame wikipediaPage = new BrowserFrame();
@@ -45,14 +45,15 @@ public class MyVaadinUI extends UI {
 
   @Override
   protected void init(VaadinRequest request) {
-
-    layout.setMargin(true);
-    layout.setSpacing(true);
+    setWidth(null);
+    addStyleName("wrapper");
+    
+    CssLayout layout = new CssLayout();
+    layout.addStyleName("main-content");
     setContent(layout);
 
     search.setDelay(200);
-    search.setWidth("400px");
-    search.setCaption("Search Wikipedia for:");
+    search.setWidth("100%");
     
     search.setQueryListener(new AutocompleteQueryListener<WikipediaPage>() {
       @Override
@@ -78,11 +79,25 @@ public class MyVaadinUI extends UI {
       }
     });
 
-    layout.addComponents(search, createPageButton, wikipediaPage);
+    Label searchLabel = new Label("Search Wikipedia for");
+    searchLabel.setWidth("100%");
+    searchLabel.addStyleName("search-label");
+    search.addStyleName("search");
+    createPageButton.addStyleName("create-page-button");
+    createPageButton.setWidth("100%");
+    wikipediaPage.addStyleName("wikipedia-page");
+    
+    CssLayout header = new CssLayout(searchLabel, search, createPageButton);
+    header.addStyleName("header");
+    
+    CssLayout body = new CssLayout(wikipediaPage);
+    body.addStyleName("body");
+    
+    layout.addComponents(header, body);
   }
 
   protected void handleSuggestionSelection(WikipediaPage suggestion) {
-    wikipediaPage.setWidth("600px");
+    wikipediaPage.setWidth("100%");
     wikipediaPage.setHeight("400px");
     String mobileVersion = suggestion.getUrl().replaceFirst("en\\.wikipedia\\.org", "en\\.m\\.wikipedia\\.org");
     wikipediaPage.setSource(new ExternalResource(mobileVersion));

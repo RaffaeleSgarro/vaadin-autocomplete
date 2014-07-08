@@ -1,3 +1,10 @@
+@font-face {
+	font-family: "Lobster";
+	font-style: normal;
+	font-weight: 400;
+	src: local("Lobster"), url(http://fonts.gstatic.com/s/lobster/v9/MWVf-Rwh4GLQVBEwbyI61Q.woff) format("woff");
+}
+
 .v-assistive-device-only {
 	position: absolute;
 	top: -2000px;
@@ -7062,4 +7069,50 @@ body .mytheme.v-app .v-app-loading {
 	border: none;
 	background: transparent repeat-x;
 	background-image: url(../reindeer/window/img/black/content-bg.png);/** sprite-ref: black-verticals; sprite-alignment: repeat */
+}
+
+.mytheme .v-ui {
+	background-color: #f2f2f2;
+}
+
+.mytheme .main-content {
+	margin: 40px 40px;
+}
+
+.mytheme .header {
+	background: #44A5FF;
+	padding: 20px;
+}
+
+.mytheme .body {
+	padding: 20px;
+	background-color: white;
+}
+
+.mytheme .search-label {
+	font-family: "Lobster", cursive;
+	color: white;
+	font-size: 22px;
+	line-height: 22px;
+	font-weight: bold;
+	text-align: center;
+	padding-bottom: 10px;
+}
+
+.mytheme .v-autocomplete.search {
+	border: none;
+	padding: 10px !important;
+	border-radius: 0;
+	color: #7C7C7C;
+	font-size: 20px;
+	line-height: 20px;
+	margin-bottom: 20px;
+}
+
+.mytheme .v-autocomplete.search:focus {
+	outline: none;
+}
+
+.mytheme .wikipedia-page {
+	margin-top: 20px;
 }

@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Lobster';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lobster'), url(http://fonts.gstatic.com/s/lobster/v9/MWVf-Rwh4GLQVBEwbyI61Q.woff) format('woff');
+}
+
 /* Import the reindeer theme. */
 /* This only allows us to use the mixins defined in it and does not add any styles by itself. */
 @import "../reindeer/reindeer.scss";
@@ -7,6 +14,53 @@
 @mixin mytheme {
   /* Include all the styles from the reindeer theme */
   @include reindeer;
-
-  /* Insert your theme rules here */
+  
+  .v-ui {
+    background-color: #f2f2f2;
+  }
+  
+  .main-content {
+    margin: 40px 40px;
+  }
+  
+  .header {
+    background: #44A5FF;
+    padding: 20px;
+  }
+  
+  .body {
+    padding: 20px;
+    background-color: white;
+  }
+  
+  .search-label {
+    font-family: 'Lobster', cursive;
+    color: white;
+    font-size: 22px;
+    line-height: 22px;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+  
+  .v-autocomplete.search {
+    border: none;
+    padding: 10px !important;
+    border-radius: 0;
+    color: #7C7C7C;
+    font-size: 20px;
+    line-height: 20px;
+    margin-bottom: 20px;
+    
+    &:focus {
+      outline: none;
+    }
+  }
+  
+  .create-page-button {
+  }
+  
+  .wikipedia-page {
+    margin-top: 20px;
+  }
 }

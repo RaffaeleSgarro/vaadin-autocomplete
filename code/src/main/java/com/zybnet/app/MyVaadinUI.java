@@ -16,8 +16,10 @@ import org.xml.sax.SAXException;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.BrowserFrame;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification;
@@ -34,6 +36,7 @@ public class MyVaadinUI extends UI {
   private final VerticalLayout layout = new VerticalLayout();
   private final AutocompleteField<WikipediaPage> search = new AutocompleteField<WikipediaPage>();
   private final Button createPageButton = new Button("No result found. Create Page!");
+  private final BrowserFrame wikipediaPage = new BrowserFrame();
   
   @WebServlet(value = "/*", asyncSupported = true)
   @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class, widgetset = "com.zybnet.app.AppWidgetSet")
@@ -75,11 +78,14 @@ public class MyVaadinUI extends UI {
       }
     });
 
-    layout.addComponents(search, createPageButton);
+    layout.addComponents(search, createPageButton, wikipediaPage);
   }
 
   protected void handleSuggestionSelection(WikipediaPage suggestion) {
-    Notification.show("Selected " + suggestion.getTitle() + ", URL: " + suggestion.getUrl());
+    wikipediaPage.setWidth("600px");
+    wikipediaPage.setHeight("400px");
+    String mobileVersion = suggestion.getUrl().replaceFirst("en\\.wikipedia\\.org", "en\\.m\\.wikipedia\\.org");
+    wikipediaPage.setSource(new ExternalResource(mobileVersion));
   }
   
   private void handleSearchQuery(AutocompleteField<WikipediaPage> field, String query) {

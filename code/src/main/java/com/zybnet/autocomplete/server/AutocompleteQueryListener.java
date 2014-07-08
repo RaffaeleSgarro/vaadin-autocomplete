@@ -1,5 +1,5 @@
 package com.zybnet.autocomplete.server;
 
-public interface AutocompleteQueryListener {
-  void handleUserQuery(AutocompleteField autocompleteField, String query);
+public interface AutocompleteQueryListener<E> {
+  void handleUserQuery(AutocompleteField<E> autocompleteField, String query);
 }

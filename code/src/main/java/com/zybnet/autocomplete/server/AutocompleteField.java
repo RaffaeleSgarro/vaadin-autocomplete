@@ -1,7 +1,10 @@
 package com.zybnet.autocomplete.server;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.vaadin.ui.AbstractField;
 import com.zybnet.autocomplete.shared.AutocompleteClientRpc;
@@ -10,12 +13,13 @@ import com.zybnet.autocomplete.shared.AutocompleteState;
 import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 
 @SuppressWarnings("serial")
-public class AutocompleteField extends AbstractField<String> implements AutocompleteServerRpc{
+public class AutocompleteField<E> extends AbstractField<String> implements AutocompleteServerRpc{
   
   private String text;
-  private AutocompleteQueryListener queryListener;
-  private AutocompleteSuggestionPickedListener suggestionPickedListener;
-  
+  private AutocompleteQueryListener<E> queryListener;
+  private AutocompleteSuggestionPickedListener<E> suggestionPickedListener;
+  private Map<Integer, E> items = new HashMap<Integer, E>();
+
   public AutocompleteField() {
     registerRpc(this, AutocompleteServerRpc.class);
   }
@@ -27,10 +31,7 @@ public class AutocompleteField extends AbstractField<String> implements Autocomp
   
   public void clearChoices() {
     getState().suggestions = Collections.emptyList();
-  }
-
-  public void setChoices(List<AutocompleteFieldSuggestion> suggestions) {
-    getState().suggestions = suggestions;
+    items = new HashMap<Integer, E>();
   }
   
   @Override
@@ -44,17 +45,17 @@ public class AutocompleteField extends AbstractField<String> implements Autocomp
     }
   }
   
-  public void setQueryListener(AutocompleteQueryListener listener) {
+  public void setQueryListener(AutocompleteQueryListener<E> listener) {
     this.queryListener = listener;
   }
 
   @Override
   public void onSuggestionPicked(AutocompleteFieldSuggestion suggestion) {
     setText(suggestion.getDisplayString());
-    if (suggestionPickedListener != null) suggestionPickedListener.onSuggestionPicked(suggestion);
+    if (suggestionPickedListener != null) suggestionPickedListener.onSuggestionPicked(items.get(suggestion.getId()));
   }
   
-  public void setSuggestionPickedListener(AutocompleteSuggestionPickedListener listener) {
+  public void setSuggestionPickedListener(AutocompleteSuggestionPickedListener<E> listener) {
     this.suggestionPickedListener = listener;
   }
 
@@ -74,5 +75,16 @@ public class AutocompleteField extends AbstractField<String> implements Autocomp
   @Override
   public void onTextValueChanged(String text) {
     this.text = text;
+  }
+  
+  public void addSuggestion(E id, String title) {
+    int index = getState().suggestions.size();
+    items.put(index, id);
+    List<AutocompleteFieldSuggestion> newSuggestionList = new ArrayList<AutocompleteFieldSuggestion>(getState().suggestions);
+    AutocompleteFieldSuggestion suggestion = new AutocompleteFieldSuggestion();
+    suggestion.setId(index);
+    suggestion.setDisplayString(title);
+    newSuggestionList.add(suggestion);
+    getState().suggestions = newSuggestionList;
   }
 }

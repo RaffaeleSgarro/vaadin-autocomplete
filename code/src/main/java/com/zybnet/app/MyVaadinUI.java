@@ -1,9 +1,18 @@
 package com.zybnet.app;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -17,14 +26,14 @@ import com.vaadin.ui.VerticalLayout;
 import com.zybnet.autocomplete.server.AutocompleteField;
 import com.zybnet.autocomplete.server.AutocompleteQueryListener;
 import com.zybnet.autocomplete.server.AutocompleteSuggestionPickedListener;
-import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 
 @Theme("mytheme")
 @SuppressWarnings("serial")
 public class MyVaadinUI extends UI {
 
   private final VerticalLayout layout = new VerticalLayout();
-  private final AutocompleteField search = new AutocompleteField();
+  private final AutocompleteField<WikipediaPage> search = new AutocompleteField<WikipediaPage>();
+  private final Button createPageButton = new Button("No result found. Create Page!");
   
   @WebServlet(value = "/*", asyncSupported = true)
   @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class, widgetset = "com.zybnet.app.AppWidgetSet")
@@ -40,76 +49,66 @@ public class MyVaadinUI extends UI {
 
     search.setDelay(200);
     search.setWidth("400px");
-    search.setCaption("Search 'java'");
+    search.setCaption("Search Wikipedia for:");
     
-    search.setQueryListener(new AutocompleteQueryListener() {
+    search.setQueryListener(new AutocompleteQueryListener<WikipediaPage>() {
       @Override
-      public void handleUserQuery(AutocompleteField field, String query) {
+      public void handleUserQuery(AutocompleteField<WikipediaPage> field, String query) {
         handleSearchQuery(field, query);
       }
     });
     
-    search.setSuggestionPickedListener(new AutocompleteSuggestionPickedListener() {
+    search.setSuggestionPickedListener(new AutocompleteSuggestionPickedListener<WikipediaPage>() {
       
       @Override
-      public void onSuggestionPicked(AutocompleteFieldSuggestion suggestion) {
-        handleSuggestionSelection(suggestion);
+      public void onSuggestionPicked(WikipediaPage page) {
+        handleSuggestionSelection(page);
       }
     });
     
-    Button setShortDelayBtn = new Button("Set short search delay");
-    setShortDelayBtn.addClickListener(new UpdateDelay(search, 200));
+    createPageButton.setVisible(false);
     
-    Button setLongDelayBtn = new Button("Set long search delay");
-    setLongDelayBtn.addClickListener(new UpdateDelay(search, 1000));
-    
-    Button advertiseTextBtn = new Button("What's in the box?");
-    advertiseTextBtn.addClickListener(new Button.ClickListener() {
+    createPageButton.addClickListener(new Button.ClickListener() {
       @Override
       public void buttonClick(ClickEvent event) {
-        Notification.show("Showing text: " + search.getText());
+        Notification.show("Creating page for \"" + search.getText() + "\"");
       }
     });
 
-    layout.addComponents(search, setShortDelayBtn, setLongDelayBtn, advertiseTextBtn);
+    layout.addComponents(search, createPageButton);
+  }
+
+  protected void handleSuggestionSelection(WikipediaPage suggestion) {
+    Notification.show("Selected " + suggestion.getTitle() + ", URL: " + suggestion.getUrl());
   }
   
-  private static class UpdateDelay implements Button.ClickListener {
-
-    private final AutocompleteField search;
-    private final int delay;
-    
-    public UpdateDelay(AutocompleteField search, int delay) {
-      this.search = search;
-      this.delay = delay;
-    }
-
-    @Override
-    public void buttonClick(ClickEvent event) {
-      search.setDelay(delay);
-    }
-  }
-
-  protected void handleSuggestionSelection(AutocompleteFieldSuggestion suggestion) {
-    Notification.show("Selected " + suggestion.getDisplayString() + ", ID: " + suggestion.getId());
-  }
-  
-  private void handleSearchQuery(AutocompleteField field, String query) {
+  private void handleSearchQuery(AutocompleteField<WikipediaPage> field, String query) {
     try {
-      // Simulate a slow query
-      Thread.sleep(1000);
-      List<AutocompleteFieldSuggestion> suggestions = new ArrayList<AutocompleteFieldSuggestion>();
-      for (int i = 0; i < 10; i++) {
-        AutocompleteFieldSuggestion suggestion = new AutocompleteFieldSuggestion();
-        suggestion.setId(i + 1);
-        suggestion.setDisplayString((i + 1) + ": " + query);
-        suggestions.add(suggestion);
+      field.clearChoices();
+      List<WikipediaPage> result = wikiSearch(query);
+      createPageButton.setVisible(result.isEmpty());
+      for (WikipediaPage page : result) {
+        field.addSuggestion(page, page.getTitle());
       }
-      field.setChoices(suggestions);
-    } catch (InterruptedException e) {
+    } catch (Exception e) {
       throw new RuntimeException(e);
     }
     
+  }
+  
+  private List<WikipediaPage> wikiSearch(String query) throws IOException, SAXException, ParserConfigurationException {
+    Document dom = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse("http://en.wikipedia.org/w/api.php?action=opensearch&namespace=0&format=xml&search=" + URLEncoder.encode(query, "UTF-8"));
+    NodeList pages = dom.getElementsByTagName("Item");
+    List<WikipediaPage> result = new ArrayList<WikipediaPage>();
+    for (int i = 0; i < pages.getLength(); i++) {
+      WikipediaPage page = new WikipediaPage();
+      result.add(page);
+      Element src = (Element) pages.item(i);
+      page.setTitle(src.getElementsByTagName("Text").item(0).getTextContent());
+      page.setUrl(src.getElementsByTagName("Url").item(0).getTextContent());
+      page.setDescription(src.getElementsByTagName("Description").item(0).getTextContent());
+    }
+    return result;
   }
 
 }

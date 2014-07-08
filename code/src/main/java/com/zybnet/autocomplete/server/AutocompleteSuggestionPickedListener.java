@@ -1,9 +1,7 @@
 package com.zybnet.autocomplete.server;
 
-import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
+public interface AutocompleteSuggestionPickedListener<E> {
 
-public interface AutocompleteSuggestionPickedListener {
-
-  void onSuggestionPicked(AutocompleteFieldSuggestion suggestion);
+  void onSuggestionPicked(E suggestion);
 
 }

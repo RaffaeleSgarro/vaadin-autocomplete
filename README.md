@@ -20,13 +20,19 @@ because the component can be used for two distinct purposes:
 
 Maybe the best way would be exposing two server side components.
 
-The code is organized in two directories:
+The code is organized in two directories (Maven projects):
 
  - `autocomplete` contains the code for the Autocomplete addon
  - `demo` is the test application to exercise the Autocomplete API
 
-To start the demo application, launch the following command in the `demo`
-directory and then visit [http://localhost:8080/app] :
+As long as the addon is not released on Maven central, it must be installed locally
+to satisfy the dependency of the demo application:
+
+    # In autocomplete
+    mvn clean install
+
+Then one can start the demo with the following commands in the `demo`
+directory and then visit [http://localhost:8080/app](http://localhost:8080/app) :
 
     # Compiles the widgetset. Only needed the first time
     mvn clean

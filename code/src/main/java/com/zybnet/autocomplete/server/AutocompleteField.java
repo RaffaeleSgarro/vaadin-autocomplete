@@ -87,4 +87,12 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
     newSuggestionList.add(suggestion);
     getState().suggestions = newSuggestionList;
   }
+  
+  public void setMinimumQueryCharacters(int minimumQueryCharacters) {
+    getState().minimumQueryCharacters = minimumQueryCharacters;
+  }
+  
+  public void setTrimQuery(boolean trimQuery) {
+    getState().trimQuery = trimQuery;
+  }
 }

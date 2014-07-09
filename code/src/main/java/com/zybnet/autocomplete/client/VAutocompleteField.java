@@ -30,6 +30,8 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
   private List<AutocompleteFieldSuggestion> suggestions = Collections.emptyList();
   private boolean isInitiatedFromServer = false;
   private TextChangeListener textChangeHandler;
+  private boolean trimQuery = true;
+  private int minimumQueryCharacters = 3;
   
   public VAutocompleteField() {
     suggestBox = new SuggestBox(oracle);
@@ -49,12 +51,20 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
         callback.onSuggestionsReady(request, response);
       } else {
         // send event to the server side
-        maybeInvokeQueryListenerLater(request.getQuery());
+        String query = request.getQuery();
+        
+        if (isTrimQuery()) {
+          query = query.trim();
+        }
+        
+        if (query.length() >= getMinimumQueryCharacters()) {
+          scheduleQuery(request.getQuery());
+        }
       }
     }
   }
   
-  private void maybeInvokeQueryListenerLater(final String query) {
+  private void scheduleQuery(final String query) {
     
     if (sendQueryToServer != null) {
       sendQueryToServer.cancel();
@@ -138,5 +148,28 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
       break;
     }
   }
-  
+
+  public TextChangeListener getTextChangeHandler() {
+    return textChangeHandler;
+  }
+
+  public void setTextChangeHandler(TextChangeListener textChangeHandler) {
+    this.textChangeHandler = textChangeHandler;
+  }
+
+  public boolean isTrimQuery() {
+    return trimQuery;
+  }
+
+  public void setTrimQuery(boolean trimQuery) {
+    this.trimQuery = trimQuery;
+  }
+
+  public int getMinimumQueryCharacters() {
+    return minimumQueryCharacters;
+  }
+
+  public void setMinimumQueryCharacters(int minimumQueryCharacters) {
+    this.minimumQueryCharacters = minimumQueryCharacters;
+  }
 }

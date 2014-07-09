@@ -1,2 +1,4 @@
-code/target
-code/src/main/webapp/VAADIN/widgetsets
+autocomplete/target
+demo/src/main/webapp/VAADIN/widgetsets
+demo/src/main/webapp/VAADIN/themes/mytheme/mytheme.css
+demo/target

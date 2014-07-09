@@ -6,7 +6,7 @@
 	<artifactId>vaadin-autocomplete</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>Vaadin Autocomplete addon</name>
+	<name>AutocompleteField for Vaadin</name>
 	<description>Autocomplete addon for Vaadin</description>
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -91,17 +91,18 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<!-- As we are doing "inplace" GWT compilation, ensure the widgetset -->
-			<!-- directory is cleaned properly -->
 			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>2.4.1</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
-					<filesets>
-						<fileset>
-							<directory>src/main/webapp/VAADIN/widgetsets</directory>
-						</fileset>
-					</filesets>
+					<archive>
+						<manifestEntries>
+							<Vaadin-Package-Version>1</Vaadin-Package-Version>
+							<Implementation-Title>${project.name}</Implementation-Title>
+							<Implementation-Version>${project.version}</Implementation-Version>
+							<Vaadin-Widgetsets>com.zybnet.autocomplete.AutocompleteWidgetSet</Vaadin-Widgetsets>
+						</manifestEntries>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>

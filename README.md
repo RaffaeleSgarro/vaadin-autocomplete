@@ -76,10 +76,12 @@ Developers here
 
 After making changes to the addon, you may want to
 
+    # In the "autocomplete" project
     mvn clean install
 
-And to see the result:
+And to see the result in the provided UI:
 
+    # In the "demo" project
     # If widgetset needs to be recompiled
     mvn clean package 
     mvn jetty:run

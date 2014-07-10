@@ -5,7 +5,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.annotation.WebServlet;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -15,10 +14,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.BrowserFrame;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -32,16 +29,11 @@ import com.zybnet.autocomplete.server.AutocompleteSuggestionPickedListener;
 
 @Theme("mytheme")
 @SuppressWarnings("serial")
-public class MyVaadinUI extends UI {
+public class DemoUI extends UI {
 
   private final AutocompleteField<WikipediaPage> search = new AutocompleteField<WikipediaPage>();
   private final Button createPageButton = new Button("No result found. Create Page!");
   private final BrowserFrame wikipediaPage = new BrowserFrame();
-  
-  @WebServlet(value = "/*", asyncSupported = true)
-  @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class, widgetset = "com.zybnet.app.AppWidgetSet")
-  public static class Servlet extends VaadinServlet {
-  }
 
   @Override
   protected void init(VaadinRequest request) {

@@ -11,6 +11,33 @@ or some search API working over the network). Main points:
  - Queries are not sent to the server side immediately, but only after the user
    has stopped typing (the timeout is configurable). You can also configure the minimum
    query characters count (default is 3), and the query is trimmed by default
+
+![Component screenshot](vaadin-autocomplete-screenshot.png)
+
+Both the API and the implementation are in the early development stages and must
+be considered experimental. Suggestions are welcomed. At the moment, here is how
+the API looks like:
+
+```java
+AutocompleteField<WikipediaPage> search = new AutocompleteField<>();
+
+search.setQueryListener(new AutocompleteQueryListener<WikipediaPage>() {
+  @Override
+  public void handleUserQuery(AutocompleteField<WikipediaPage> field, String query) {
+    field.clearChoices();
+    for (WikipediaPage page : queryWikipediaApi(query)) {
+      field.addSuggestion(page, page.getTitle());
+    }
+  }
+});
+
+search.setSuggestionPickedListener(new AutocompleteSuggestionPickedListener<WikipediaPage>() {
+  @Override
+  public void onSuggestionPicked(WikipediaPage page) {
+    handleSuggestionSelection(page);
+  }
+});
+```
    
 At the moment I didn't find a good way to integrate with the `Property` API, mainly
 because the component can be used for two distinct purposes:
@@ -43,28 +70,6 @@ To develop you may also want to run the GWT code server:
 
     mvn vaadin:run-codeserver
 
-Both the API and the implementation are in the early development stages and must
-be considered experimental. Suggestions are welcomed. At the moment, here is how
-the API looks like:
-
-```java
-AutocompleteField<WikipediaPage> search = new AutocompleteField<>();
-
-search.setQueryListener(new AutocompleteQueryListener<WikipediaPage>() {
-  @Override public void handleUserQuery(AutocompleteField<WikipediaPage> field, String query) {
-    field.clearChoices();
-    for (WikipediaPage page : queryWikipediaApi(query)) {
-      field.addSuggestion(page, page.getTitle());
-    }
-  }
-});
-
-search.setSuggestionPickedListener(new AutocompleteSuggestionPickedListener<WikipediaPage>() {
-  @Override public void onSuggestionPicked(WikipediaPage page) {
-    handleSuggestionSelection(page);
-  }
-});
-```
 
 Developers here
 ===============

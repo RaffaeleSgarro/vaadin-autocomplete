@@ -20,6 +20,7 @@ public class SimpleSuggestionsDisplay extends SuggestBox.DefaultSuggestionDispla
     VOverlay popup = GWT.create(VOverlay.class);
     popup.setOwner(widget);
     popup.setStyleName("gwt-SuggestBoxPopup");
+    popup.setAutoHideEnabled(true);
     return popup;
   }
 

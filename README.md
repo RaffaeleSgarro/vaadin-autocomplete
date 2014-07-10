@@ -65,3 +65,23 @@ search.setSuggestionPickedListener(new AutocompleteSuggestionPickedListener<Wiki
   }
 });
 ```
+
+Developers here
+===============
+
+After making changes to the addon, you may want to
+
+    mvn clean install
+
+And to see the result:
+
+    # If widgetset needs to be recompiled
+    mvn clean package 
+    mvn jetty:run
+
+There are currently two UIs:
+
+  - `DemoUI`, which is intended to be put online as the live demo of this component.
+    It's deployed at [http://localhost:8080/app](http://localhost:8080/app)
+  - `DevUI`, which is for testing deployed at [http://localhost:8080](http://localhost:8080)
+

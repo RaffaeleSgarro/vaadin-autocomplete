@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -15,13 +16,16 @@ import com.google.gwt.user.client.ui.SuggestBox.SuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.vaadin.client.ui.VTextField;
 import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 
 public class VAutocompleteField extends Composite implements KeyUpHandler {
 
   public static final String CLASSNAME = "v-autocomplete";
   
-  private final SuggestOracle oracle = new SuggestOracleImpl();
+  private final SuggestOracle oracle;
+  private final SimpleSuggestionsDisplay suggestionsDisplay;
+  private final VTextField textField;
   private final SuggestBox suggestBox;
   
   private int delayMillis = 300;
@@ -34,7 +38,10 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
   private int minimumQueryCharacters = 3;
   
   public VAutocompleteField() {
-    suggestBox = new SuggestBox(oracle);
+    oracle = new SuggestOracleImpl();
+    suggestionsDisplay = new SimpleSuggestionsDisplay(this);
+    textField = GWT.create(VTextField.class);
+    suggestBox = new SuggestBox(oracle, textField, suggestionsDisplay);
     initWidget(suggestBox);
     suggestBox.getValueBox().addKeyUpHandler(this);
     setStyleName(CLASSNAME);

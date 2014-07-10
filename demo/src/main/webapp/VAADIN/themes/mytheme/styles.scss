@@ -9,3 +9,13 @@
   // Include mytheme theme styles in your theme
   @include mytheme;
 }
+
+.gwt-SuggestBoxPopup {
+  border: 4px solid #D5E2FF;
+}
+
+.gwt-SuggestBoxPopup .item {
+  padding: 8px 16px !important;
+  font-size: 20px;
+  font-family: 'Open Sans', sans-serif;
+}

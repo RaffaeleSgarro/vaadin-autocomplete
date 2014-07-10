@@ -1,9 +1,5 @@
-@font-face {
-  font-family: 'Lobster';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Lobster'), url(http://fonts.gstatic.com/s/lobster/v9/MWVf-Rwh4GLQVBEwbyI61Q.woff) format('woff');
-}
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+@import url(http://fonts.googleapis.com/css?family=Dancing+Script);
 
 /* Import the reindeer theme. */
 /* This only allows us to use the mixins defined in it and does not add any styles by itself. */
@@ -14,6 +10,33 @@
 @mixin mytheme {
   /* Include all the styles from the reindeer theme */
   @include reindeer;
+  
+  /* Global font styles */
+  .v-app,
+  .v-window,
+  .v-popupview-popup,
+  .v-tooltip,
+  .v-app input,
+  .v-app select,
+  .v-app button,
+  .v-app textarea,
+  .v-window input,
+  .v-window select,
+  .v-window button,
+  .v-window textarea,
+  .v-popupview-popup input,
+  .v-popupview-popup select,
+  .v-popupview-popup button,
+  .v-popupview-popup textarea,
+  .v-filterselect-suggestpopup,
+  .v-datefield-popup,
+  .v-contextmenu,
+  .v-Notification,
+  .v-menubar-submenu,
+  .v-drag-element,
+  .v-table-header-drag {
+    font-family: 'Open Sans', sans-serif !important;
+  }
   
   .v-ui {
     background-color: #f2f2f2;
@@ -34,11 +57,10 @@
   }
   
   .search-label {
-    font-family: 'Lobster', cursive;
+    font-family: 'Dancing Script', cursive;
     color: white;
-    font-size: 22px;
-    line-height: 22px;
-    font-weight: bold;
+    font-size: 30px;
+    line-height: 30px;
     text-align: center;
     padding-bottom: 10px;
   }
@@ -51,6 +73,7 @@
     font-size: 20px;
     line-height: 20px;
     margin-bottom: 20px;
+    font-family: 'Open Sans', sans-serif;
     
     &:focus {
       outline: none;
@@ -63,4 +86,5 @@
   .wikipedia-page {
     margin-top: 20px;
   }
+
 }

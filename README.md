@@ -52,7 +52,6 @@ AutocompleteField<WikipediaPage> search = new AutocompleteField<>();
 
 search.setQueryListener(new AutocompleteQueryListener<WikipediaPage>() {
   @Override public void handleUserQuery(AutocompleteField<WikipediaPage> field, String query) {
-    field.clearChoices();
     for (WikipediaPage page : queryWikipediaApi(query)) {
       field.addSuggestion(page, page.getTitle());
     }

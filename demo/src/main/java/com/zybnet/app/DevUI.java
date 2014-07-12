@@ -62,15 +62,9 @@ public class DevUI extends UI {
   }
   
   private void handleSearchQuery(AutocompleteField<Integer> field, String query) {
-    try {
-      field.clearChoices();
-      for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++) {
         field.addSuggestion(i, i + ": " + query);
-      }
-    } catch (Exception e) {
-      throw new RuntimeException(e);
     }
-    
   }
 
 }

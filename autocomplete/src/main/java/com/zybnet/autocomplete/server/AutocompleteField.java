@@ -13,7 +13,7 @@ import com.zybnet.autocomplete.shared.AutocompleteState;
 import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 
 @SuppressWarnings("serial")
-public class AutocompleteField<E> extends AbstractField<String> implements AutocompleteServerRpc{
+public class AutocompleteField<E> extends AbstractField<String> implements AutocompleteServerRpc {
   
   private String text;
   private AutocompleteQueryListener<E> queryListener;
@@ -40,6 +40,7 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
   }
   
   public void onQuery(String query) {
+    clearChoices();
     if (queryListener != null) {
       queryListener.handleUserQuery(this, query);
     }
@@ -74,6 +75,8 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
 
   @Override
   public void onTextValueChanged(String text) {
+    // TODO ugly. We must avoid to call setText() because that whould
+    // send the value back to the client
     this.text = text;
   }
   

@@ -97,7 +97,6 @@ public class DemoUI extends UI {
   
   private void handleSearchQuery(AutocompleteField<WikipediaPage> field, String query) {
     try {
-      field.clearChoices();
       List<WikipediaPage> result = wikiSearch(query);
       createPageButton.setVisible(result.isEmpty());
       for (WikipediaPage page : result) {

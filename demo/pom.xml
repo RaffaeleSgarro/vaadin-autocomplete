@@ -107,7 +107,7 @@
 					<source>1.6</source>
 					<target>1.6</target>
 					<excludes>
-						<exclude>com/zybnet/autocomplete/client/**</exclude>
+						<exclude>com/zybnet/autocomplete/client/**</exclude><!-- TODO this should not be required in the demo -->
 					</excludes>
 				</configuration>
 			</plugin>

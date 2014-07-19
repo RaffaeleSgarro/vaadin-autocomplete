@@ -72,17 +72,13 @@ To develop you may also want to run the GWT code server:
 Developers here
 ===============
 
-After making changes to the addon, you may want to
+To start the development UI in the `autocomplete` directory:
 
-    # In the "autocomplete" project
-    mvn clean install
-
-And to see the result in the provided UI:
-
-    # In the "demo" project
     # If widgetset needs to be recompiled
     mvn clean package 
     mvn jetty:run
+    # in another console
+    mvn vaadin:run-codeserver
 
 There are currently two UIs:
 

@@ -1,4 +1,5 @@
 autocomplete/target
+autocomplete/src/main/webapp/VAADIN/widgetsets
 demo/src/main/webapp/VAADIN/widgetsets
 demo/src/main/webapp/VAADIN/themes/mytheme/styles.css
 demo/target

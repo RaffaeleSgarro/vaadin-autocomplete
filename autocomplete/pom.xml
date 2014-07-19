@@ -152,7 +152,6 @@
 					<draftCompile>false</draftCompile>
 					<style>OBF</style>
 					<strict>true</strict>
-					<logLevel>ASDFQWER</logLevel>
 					<runTarget>http://localhost:8080/</runTarget>
 				</configuration>
 				<executions>

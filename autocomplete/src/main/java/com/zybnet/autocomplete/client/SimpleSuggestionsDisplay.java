@@ -18,6 +18,7 @@ public class SimpleSuggestionsDisplay extends SuggestBox.DefaultSuggestionDispla
   @Override
   public PopupPanel createPopup() {
     VOverlay popup = GWT.create(VOverlay.class);
+    popup.setWidget(widget);
     popup.setOwner(widget);
     popup.setStyleName("gwt-SuggestBoxPopup");
     popup.setAutoHideEnabled(true);

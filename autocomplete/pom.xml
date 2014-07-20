@@ -114,6 +114,9 @@
               <Vaadin-Widgetsets>com.zybnet.autocomplete.AutocompleteWidgetSet</Vaadin-Widgetsets>
             </manifestEntries>
           </archive>
+          <excludes>
+            <exclude>app/</exclude>
+          </excludes>
         </configuration>
       </plugin>
       <!-- As we are doing "inplace" GWT compilation, ensure the widgetset -->

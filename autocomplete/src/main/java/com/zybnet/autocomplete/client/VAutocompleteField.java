@@ -48,21 +48,20 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
   }
   
   private class SuggestOracleImpl extends SuggestOracle {
-	
-	private boolean displayStringHtml;
-	
 	/**
 	 * If tooltip is not null, display as html else display as plain string.
 	 */
 	@Override
 	public boolean isDisplayStringHTML() {
-		return displayStringHtml;
+		if (suggestions.size() > 0 && suggestions.get(0).getTooltip() != null) {
+			return true;
+		}
+		return false;
 	}
 
     @Override
     public void requestSuggestions(Request request, Callback callback) {
       if (isInitiatedFromServer) {
-    	configureTooltips();
         // invoke the callback
         Response response = new Response();
         response.setSuggestions(wrapSuggestions(suggestions));
@@ -81,18 +80,6 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
       }
     }
     
-    /**
-     * If tooltip is not null wrap the displayString in a div and display the tooltip as html title.
-     */
-    private void configureTooltips() {
-		displayStringHtml = false;
-		if (suggestions.size() > 0 && suggestions.get(0).getTooltip() != null) {
-			displayStringHtml = true;
-			for (AutocompleteFieldSuggestion afs : suggestions) {
-				afs.setDisplayString("<div title='" + afs.getTooltip() + "'>" + afs.getDisplayString() + "</div>");
-			}
-		}
-	}
   }
   
   private void scheduleQuery(final String query) {

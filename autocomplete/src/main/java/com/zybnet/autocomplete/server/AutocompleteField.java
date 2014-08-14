@@ -52,7 +52,7 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
 
   @Override
   public void onSuggestionPicked(AutocompleteFieldSuggestion suggestion) {
-    setText(suggestion.getDisplayString());
+    setText(suggestion.getReplacementString());
     if (suggestionPickedListener != null) suggestionPickedListener.onSuggestionPicked(items.get(suggestion.getId()));
   }
   
@@ -90,7 +90,7 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
 	List<AutocompleteFieldSuggestion> newSuggestionList = new ArrayList<AutocompleteFieldSuggestion>(getState().suggestions);
 	AutocompleteFieldSuggestion suggestion = new AutocompleteFieldSuggestion();
 	suggestion.setId(index);
-	suggestion.setDisplayString(title);
+	suggestion.setReplacementString(title);
 	suggestion.setTooltip(tooltip);
 	newSuggestionList.add(suggestion);
 	getState().suggestions = newSuggestionList;

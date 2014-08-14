@@ -81,14 +81,19 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
   }
   
   public void addSuggestion(E id, String title) {
-    int index = getState().suggestions.size();
-    items.put(index, id);
-    List<AutocompleteFieldSuggestion> newSuggestionList = new ArrayList<AutocompleteFieldSuggestion>(getState().suggestions);
-    AutocompleteFieldSuggestion suggestion = new AutocompleteFieldSuggestion();
-    suggestion.setId(index);
-    suggestion.setDisplayString(title);
-    newSuggestionList.add(suggestion);
-    getState().suggestions = newSuggestionList;
+		addSuggestion(id, title, null);
+  }
+
+  public void addSuggestion(E id, String title, String tooltip) {
+	int index = getState().suggestions.size();
+	items.put(index, id);
+	List<AutocompleteFieldSuggestion> newSuggestionList = new ArrayList<AutocompleteFieldSuggestion>(getState().suggestions);
+	AutocompleteFieldSuggestion suggestion = new AutocompleteFieldSuggestion();
+	suggestion.setId(index);
+	suggestion.setDisplayString(title);
+	suggestion.setTooltip(tooltip);
+	newSuggestionList.add(suggestion);
+	getState().suggestions = newSuggestionList;
   }
   
   public void setMinimumQueryCharacters(int minimumQueryCharacters) {

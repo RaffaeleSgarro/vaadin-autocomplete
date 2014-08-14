@@ -11,6 +11,18 @@ public class AutocompleteFieldSuggestion implements Serializable {
 	private String replacementString;
 
 
+	public AutocompleteFieldSuggestion() {
+		/* needed for widgetset compilation */
+	}
+
+
+	public AutocompleteFieldSuggestion(Integer id, String replacementString, String tooltip) {
+		this.id = id;
+		this.replacementString = replacementString;
+		this.tooltip = tooltip;
+	}
+
+
 	public String getDisplayString() {
 		if (tooltip == null) {
 			return replacementString;
@@ -24,28 +36,13 @@ public class AutocompleteFieldSuggestion implements Serializable {
 	}
 
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-
 	public String getTooltip() {
 		return tooltip;
 	}
 
 
-	public void setTooltip(String tooltip) {
-		this.tooltip = tooltip;
-	}
-
-
 	public String getReplacementString() {
 		return replacementString;
-	}
-
-
-	public void setReplacementString(String replacementString) {
-		this.replacementString = replacementString;
 	}
 
 }

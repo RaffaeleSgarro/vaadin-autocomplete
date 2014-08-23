@@ -77,7 +77,7 @@ To start the development UI in the `autocomplete` directory:
     # If widgetset needs to be recompiled
     mvn clean package 
     mvn jetty:run
-    # in another console
+    # in another console, when you have to develop client-side things
     mvn vaadin:run-codeserver
 
 There are currently two UIs:
@@ -85,4 +85,10 @@ There are currently two UIs:
   - `DemoUI`, which is intended to be put online as the live demo of this component.
     It's deployed at [http://localhost:8080/app](http://localhost:8080/app)
   - `DevUI`, which is for testing deployed at [http://localhost:8080](http://localhost:8080)
+  
+Deploy
+======
 
+To release the artifacts to the Central repository
+
+    $ mvn clean deploy -P release

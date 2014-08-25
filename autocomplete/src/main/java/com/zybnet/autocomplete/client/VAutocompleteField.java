@@ -190,4 +190,12 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
   public void setMinimumQueryCharacters(int minimumQueryCharacters) {
     this.minimumQueryCharacters = minimumQueryCharacters;
   }
+  
+  public void setReadOnly(boolean readOnly) {
+	  textField.setReadOnly(readOnly);
+  }
+  
+  public boolean isReadOnly() {
+	 return textField.isReadOnly();
+  }
 }

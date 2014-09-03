@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -20,7 +22,7 @@ import com.vaadin.client.Focusable;
 import com.vaadin.client.ui.VTextField;
 import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 
-public class VAutocompleteField extends Composite implements KeyUpHandler, Focusable {
+public class VAutocompleteField extends Composite implements KeyUpHandler, KeyDownHandler, Focusable {
 
   public static final String CLASSNAME = "v-autocomplete";
   
@@ -45,6 +47,7 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, Focus
     suggestBox = new SuggestBox(oracle, textField, suggestionsDisplay);
     initWidget(suggestBox);
     suggestBox.getValueBox().addKeyUpHandler(this);
+    suggestBox.getValueBox().addKeyDownHandler(this);
     setStyleName(CLASSNAME);
   }
   
@@ -167,6 +170,19 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, Focus
       break;
     }
   }
+  
+  /**
+   * ENTER keypress shouldn't bubble up
+   */
+	@Override
+	public void onKeyDown(KeyDownEvent event) {
+		switch (event.getNativeKeyCode()) {
+			case KeyCodes.KEY_ENTER:
+				event.stopPropagation();
+				event.preventDefault();
+				break;
+		}
+	}
 
   public TextChangeListener getTextChangeHandler() {
     return textChangeHandler;

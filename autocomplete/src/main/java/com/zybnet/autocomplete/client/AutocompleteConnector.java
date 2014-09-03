@@ -52,6 +52,11 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
   private void updateDelayMillis() {
     getWidget().setDelayMillis(getState().delayMillis);
   }
+  
+  @OnStateChange("readOnly")
+  private void updateText() {
+      getWidget().setReadOnly(getState().readOnly);
+  }
 
   @Override
   public void handleQuery(String query) {

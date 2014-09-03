@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -16,10 +18,11 @@ import com.google.gwt.user.client.ui.SuggestBox.SuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.vaadin.client.Focusable;
 import com.vaadin.client.ui.VTextField;
 import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 
-public class VAutocompleteField extends Composite implements KeyUpHandler {
+public class VAutocompleteField extends Composite implements KeyUpHandler, KeyDownHandler, Focusable {
 
   public static final String CLASSNAME = "v-autocomplete";
   
@@ -44,10 +47,21 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
     suggestBox = new SuggestBox(oracle, textField, suggestionsDisplay);
     initWidget(suggestBox);
     suggestBox.getValueBox().addKeyUpHandler(this);
+    suggestBox.getValueBox().addKeyDownHandler(this);
     setStyleName(CLASSNAME);
   }
   
   private class SuggestOracleImpl extends SuggestOracle {
+	/**
+	 * If tooltip is not null, display as html else display as plain string.
+	 */
+	@Override
+	public boolean isDisplayStringHTML() {
+		if (suggestions.size() > 0 && suggestions.get(0).getTooltip() != null) {
+			return true;
+		}
+		return false;
+	}
 
     @Override
     public void requestSuggestions(Request request, Callback callback) {
@@ -69,6 +83,7 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
         }
       }
     }
+    
   }
   
   private void scheduleQuery(final String query) {
@@ -155,6 +170,19 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
       break;
     }
   }
+  
+  /**
+   * ENTER keypress shouldn't bubble up
+   */
+	@Override
+	public void onKeyDown(KeyDownEvent event) {
+		switch (event.getNativeKeyCode()) {
+			case KeyCodes.KEY_ENTER:
+				event.stopPropagation();
+				event.preventDefault();
+				break;
+		}
+	}
 
   public TextChangeListener getTextChangeHandler() {
     return textChangeHandler;
@@ -178,5 +206,17 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
 
   public void setMinimumQueryCharacters(int minimumQueryCharacters) {
     this.minimumQueryCharacters = minimumQueryCharacters;
+  }
+  
+  public void setReadOnly(boolean readOnly) {
+	  textField.setReadOnly(readOnly);
+  }
+  
+  public boolean isReadOnly() {
+	 return textField.isReadOnly();
+  }
+  
+  public void focus() {
+	  suggestBox.setFocus(true);
   }
 }

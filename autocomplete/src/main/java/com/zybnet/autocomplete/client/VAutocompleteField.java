@@ -16,10 +16,11 @@ import com.google.gwt.user.client.ui.SuggestBox.SuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.vaadin.client.Focusable;
 import com.vaadin.client.ui.VTextField;
 import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 
-public class VAutocompleteField extends Composite implements KeyUpHandler {
+public class VAutocompleteField extends Composite implements KeyUpHandler, Focusable {
 
   public static final String CLASSNAME = "v-autocomplete";
   
@@ -197,5 +198,9 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
   
   public boolean isReadOnly() {
 	 return textField.isReadOnly();
+  }
+  
+  public void focus() {
+	  suggestBox.setFocus(true);
   }
 }

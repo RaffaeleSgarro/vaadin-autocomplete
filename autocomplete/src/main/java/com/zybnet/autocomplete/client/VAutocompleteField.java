@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.vaadin.client.Focusable;
+import com.vaadin.client.VConsole;
 import com.vaadin.client.ui.VTextField;
 import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 
@@ -72,22 +73,30 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, KeyDo
         callback.onSuggestionsReady(request, response);
       } else {
         // send event to the server side
-        String query = request.getQuery();
+        String query = request.getQuery() != null ? request.getQuery() : ""
         
         if (isTrimQuery()) {
           query = query.trim();
         }
         
         if (query.length() >= getMinimumQueryCharacters()) {
-          scheduleQuery(request.getQuery());
+          scheduleQuery(query);
         }
       }
     }
     
+	@Override
+	public void requestDefaultSuggestions(Request request, Callback callback) {
+		scheduleQuery(request.getQuery() != null ? request.getQuery() : "");
+		Response response = new Response();
+		response.setSuggestions(wrapSuggestions(suggestions));
+		callback.onSuggestionsReady(request, response);
+	}
+
+    
   }
   
   private void scheduleQuery(final String query) {
-    
     if (sendQueryToServer != null) {
       sendQueryToServer.cancel();
     }
@@ -96,8 +105,9 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, KeyDo
       @Override
       public void run() {
         sendQueryToServer = null;
-        if (queryListener != null && query != null && query.equals(suggestBox.getText())) {
-          queryListener.handleQuery(query);
+        if (queryListener != null) {
+        		queryListener.handleQuery(query);
+        	}
         }
       }
     };

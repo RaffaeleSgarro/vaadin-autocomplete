@@ -73,7 +73,7 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, KeyDo
         callback.onSuggestionsReady(request, response);
       } else {
         // send event to the server side
-        String query = request.getQuery() != null ? request.getQuery() : ""
+        String query = request.getQuery() != null ? request.getQuery() : "";
         
         if (isTrimQuery()) {
           query = query.trim();
@@ -109,7 +109,6 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, KeyDo
         		queryListener.handleQuery(query);
         	}
         }
-      }
     };
     
     sendQueryToServer.schedule(delayMillis);

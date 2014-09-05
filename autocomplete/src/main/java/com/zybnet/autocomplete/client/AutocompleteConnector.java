@@ -52,6 +52,11 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
   private void updateDelayMillis() {
     getWidget().setDelayMillis(getState().delayMillis);
   }
+  
+  @OnStateChange("readOnly")
+  private void updateText() {
+      getWidget().setReadOnly(getState().readOnly);
+  }
 
   @Override
   public void handleQuery(String query) {
@@ -61,16 +66,18 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
   @Override
   public void onSelection(SelectionEvent<Suggestion> event) {
     AutocompleteFieldSuggestion suggestion = ((OracleSuggestionImpl) event.getSelectedItem()).getWrappedSuggestion();
+    setText(suggestion.getDisplayString());
     serverComponent.onSuggestionPicked(suggestion);
   }
 
   @Override
   public void onTextChange(String text) {
+	setText(text);
     serverComponent.onTextValueChanged(text);
   }
 
   @Override
   public void setText(String text) {
-    getWidget().setDisplayedText(text);
+    getState().displayedText = text;
   }
 }

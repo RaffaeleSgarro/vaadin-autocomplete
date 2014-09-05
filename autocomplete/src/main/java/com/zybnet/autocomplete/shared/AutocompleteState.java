@@ -12,4 +12,5 @@ public class AutocompleteState extends AbstractFieldState {
   public int delayMillis = 300;
   @DelegateToWidget public int minimumQueryCharacters = 3;
   @DelegateToWidget public boolean trimQuery = true;
+  @DelegateToWidget public String displayedText = "";
 }

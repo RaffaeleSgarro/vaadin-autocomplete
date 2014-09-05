@@ -5,12 +5,14 @@ import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 
 public class OracleSuggestionImpl implements Suggestion {
   
-  private final String displayString;
   private final AutocompleteFieldSuggestion wrappedSuggestion;
+  private final String displayString;
+  private final String replacementString;
   
   public OracleSuggestionImpl(AutocompleteFieldSuggestion wrappedSuggestion) {
     this.wrappedSuggestion = wrappedSuggestion;
-    this.displayString = wrappedSuggestion.getDisplayString();
+    replacementString = wrappedSuggestion.getReplacementString();
+    displayString = wrappedSuggestion.getDisplayString();
   }
 
   @Override
@@ -20,7 +22,7 @@ public class OracleSuggestionImpl implements Suggestion {
 
   @Override
   public String getReplacementString() {
-    return displayString;
+    return replacementString;
   }
   
   public AutocompleteFieldSuggestion getWrappedSuggestion() {

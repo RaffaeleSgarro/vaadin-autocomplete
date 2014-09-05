@@ -52,7 +52,7 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
 
   @Override
   public void onSuggestionPicked(AutocompleteFieldSuggestion suggestion) {
-    setText(suggestion.getDisplayString());
+    setText(suggestion.getReplacementString());
     if (suggestionPickedListener != null) suggestionPickedListener.onSuggestionPicked(items.get(suggestion.getId()));
   }
   
@@ -66,6 +66,7 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
   
   public void setText(String text) {
     this.text = text;
+    getState().displayedText = text;
     getRpcProxy(AutocompleteClientRpc.class).setText(text);
   }
   
@@ -81,14 +82,19 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
   }
   
   public void addSuggestion(E id, String title) {
-    int index = getState().suggestions.size();
-    items.put(index, id);
-    List<AutocompleteFieldSuggestion> newSuggestionList = new ArrayList<AutocompleteFieldSuggestion>(getState().suggestions);
-    AutocompleteFieldSuggestion suggestion = new AutocompleteFieldSuggestion();
-    suggestion.setId(index);
-    suggestion.setDisplayString(title);
-    newSuggestionList.add(suggestion);
-    getState().suggestions = newSuggestionList;
+		addSuggestion(id, title, null);
+  }
+
+  public void addSuggestion(E id, String title, String tooltip) {
+	int index = getState().suggestions.size();
+	items.put(index, id);
+	List<AutocompleteFieldSuggestion> newSuggestionList = new ArrayList<AutocompleteFieldSuggestion>(getState().suggestions);
+	AutocompleteFieldSuggestion suggestion = new AutocompleteFieldSuggestion();
+	suggestion.setId(index);
+	suggestion.setReplacementString(title);
+	suggestion.setTooltip(tooltip);
+	newSuggestionList.add(suggestion);
+	getState().suggestions = newSuggestionList;
   }
   
   public void setMinimumQueryCharacters(int minimumQueryCharacters) {

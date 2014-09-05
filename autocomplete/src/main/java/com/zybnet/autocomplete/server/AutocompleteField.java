@@ -66,6 +66,7 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
   
   public void setText(String text) {
     this.text = text;
+    getState().displayedText = text;
     getRpcProxy(AutocompleteClientRpc.class).setText(text);
   }
   

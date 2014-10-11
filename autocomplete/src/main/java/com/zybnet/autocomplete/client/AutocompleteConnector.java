@@ -53,6 +53,21 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
     getWidget().setDelayMillis(getState().delayMillis);
   }
 
+  @OnStateChange("hasFocus")
+  private void focus() {
+	  getWidget().setFocus(getState().hasFocus);
+  }
+  
+  @OnStateChange("tabIndex")
+  private void setTabIndex() {
+    getWidget().setTabIndex(getState().tabIndex);
+  }
+  
+  @OnStateChange("enabled")
+  private void setEnabled() {
+	  getWidget().setEnabled(getState().enabled);
+  }
+  
   @Override
   public void handleQuery(String query) {
     RpcProxy.create(AutocompleteServerRpc.class, this).onQuery(query);
@@ -73,4 +88,5 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
   public void setText(String text) {
     getWidget().setDisplayedText(text);
   }
+  
 }

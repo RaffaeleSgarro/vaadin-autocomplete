@@ -92,3 +92,8 @@ Deploy
 To release the artifacts to the Central repository
 
     $ mvn clean deploy -P release
+    
+Credits
+=======
+
+Thanks to Jeff T. Thorson <jtt@thorson.net> for his patches

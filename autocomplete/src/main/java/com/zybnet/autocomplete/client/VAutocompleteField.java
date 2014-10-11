@@ -35,6 +35,8 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
   private boolean isInitiatedFromServer = false;
   private TextChangeListener textChangeHandler;
   private boolean trimQuery = true;
+  // TODO this field is not used maybe we should remove it?
+  private boolean hasFocus = false;
   private int minimumQueryCharacters = 3;
   
   public VAutocompleteField() {
@@ -137,6 +139,19 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
 
   public String getDisplayedText() {
     return suggestBox.getValueBox().getText();
+  }
+  
+  public void setFocus(boolean mfocus) {
+    this.hasFocus = mfocus;
+    suggestBox.setFocus(mfocus);
+  }
+  
+  public void setTabIndex(int tabIdx) {
+    suggestBox.setTabIndex(tabIdx);
+  }
+  
+  public void setEnabled(boolean enabled) {
+    suggestBox.setEnabled(enabled);
   }
 
   @Override

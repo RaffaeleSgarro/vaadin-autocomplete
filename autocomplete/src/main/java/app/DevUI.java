@@ -5,11 +5,13 @@ import javax.servlet.annotation.WebServlet;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Button.ClickEvent;
 import com.zybnet.autocomplete.server.AutocompleteField;
 import com.zybnet.autocomplete.server.AutocompleteQueryListener;
 import com.zybnet.autocomplete.server.AutocompleteSuggestionPickedListener;
@@ -30,7 +32,7 @@ public class DevUI extends UI {
     VerticalLayout layout = new VerticalLayout();
     setContent(layout);
     layout.setWidth("800px");
-    layout.setHeight("500px");
+    layout.setHeight(null);
     
     HorizontalLayout row = new HorizontalLayout();
     
@@ -45,6 +47,24 @@ public class DevUI extends UI {
     
     setUpAutocomplete(search1);
     setUpAutocomplete(search2);
+    
+    Button btn = new Button("Focus search 2");
+    layout.addComponent(btn);
+    btn.addClickListener(new Button.ClickListener() {
+      @Override
+      public void buttonClick(ClickEvent event) {
+        search2.focus();
+      }
+    });
+    
+    Button btnToggleEnabled = new Button("Toggle enabled");
+    layout.addComponent(btnToggleEnabled);
+    btnToggleEnabled.addClickListener(new Button.ClickListener() {
+      @Override
+      public void buttonClick(ClickEvent event) {
+        search2.setEnabled(!search2.isEnabled());
+      }
+    });
   }
   
   private void setUpAutocomplete(AutocompleteField<Integer> search) {

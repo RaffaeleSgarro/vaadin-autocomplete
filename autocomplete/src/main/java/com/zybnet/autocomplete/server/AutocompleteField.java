@@ -72,6 +72,18 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
   public String getText() {
     return text;
   }
+  
+  public void focus() {
+    getState().hasFocus = true;
+  }
+  
+  public void setTabIndex(int tabIdx) {
+    getState().tabIndex = tabIdx;
+  }
+  
+  public void setEnabled(boolean enabled) {
+    getState().enabled = enabled;
+  }
 
   @Override
   public void onTextValueChanged(String text) {

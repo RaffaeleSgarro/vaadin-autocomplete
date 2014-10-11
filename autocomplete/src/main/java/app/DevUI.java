@@ -5,12 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.zybnet.autocomplete.server.AutocompleteField;
 import com.zybnet.autocomplete.server.AutocompleteQueryListener;
@@ -30,10 +25,15 @@ public class DevUI extends UI {
   protected void init(VaadinRequest request) {
     
     VerticalLayout layout = new VerticalLayout();
-    setContent(layout);
+
+    TabSheet content = new TabSheet();
+    content.addTab(layout, "1");
+    content.addTab(new VerticalLayout(), "2");
+    setContent(content);
     layout.setWidth("800px");
     layout.setHeight(null);
-    
+
+
     HorizontalLayout row = new HorizontalLayout();
     
     layout.addComponents(search1, row);

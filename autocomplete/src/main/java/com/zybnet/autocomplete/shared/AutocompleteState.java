@@ -10,7 +10,6 @@ import com.vaadin.shared.annotations.DelegateToWidget;
 public class AutocompleteState extends AbstractFieldState {
   public List<AutocompleteFieldSuggestion> suggestions = Collections.emptyList();
   public int delayMillis = 300;
-  public boolean hasFocus = false;
   @DelegateToWidget public int minimumQueryCharacters = 3;
   @DelegateToWidget public boolean trimQuery = true;
 }

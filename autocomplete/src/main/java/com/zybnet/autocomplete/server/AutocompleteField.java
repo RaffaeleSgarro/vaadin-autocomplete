@@ -73,10 +73,6 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
     return text;
   }
   
-  public void focus() {
-    getState().hasFocus = true;
-  }
-  
   public void setTabIndex(int tabIdx) {
     getState().tabIndex = tabIdx;
   }

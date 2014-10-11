@@ -16,10 +16,11 @@ import com.google.gwt.user.client.ui.SuggestBox.SuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.vaadin.client.Focusable;
 import com.vaadin.client.ui.VTextField;
 import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 
-public class VAutocompleteField extends Composite implements KeyUpHandler {
+public class VAutocompleteField extends Composite implements KeyUpHandler, Focusable {
 
   public static final String CLASSNAME = "v-autocomplete";
   
@@ -36,7 +37,6 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
   private TextChangeListener textChangeHandler;
   private boolean trimQuery = true;
   // TODO this field is not used maybe we should remove it?
-  private boolean hasFocus = false;
   private int minimumQueryCharacters = 3;
   
   public VAutocompleteField() {
@@ -141,9 +141,9 @@ public class VAutocompleteField extends Composite implements KeyUpHandler {
     return suggestBox.getValueBox().getText();
   }
   
-  public void setFocus(boolean mfocus) {
-    this.hasFocus = mfocus;
-    suggestBox.setFocus(mfocus);
+  @Override
+  public void focus() {
+    suggestBox.setFocus(true);
   }
   
   public void setTabIndex(int tabIdx) {

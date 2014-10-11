@@ -52,11 +52,6 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
   private void updateDelayMillis() {
     getWidget().setDelayMillis(getState().delayMillis);
   }
-
-  @OnStateChange("hasFocus")
-  private void focus() {
-	  getWidget().setFocus(getState().hasFocus);
-  }
   
   @OnStateChange("tabIndex")
   private void setTabIndex() {

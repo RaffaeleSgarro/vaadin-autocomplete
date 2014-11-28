@@ -48,7 +48,14 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, Focus
     suggestBox.getValueBox().addKeyUpHandler(this);
     setStyleName(CLASSNAME);
   }
-  
+
+  @Override
+  protected void onAttach() {
+    super.onAttach();
+    // hide suggestion auto-popup on restore state
+    suggestionsDisplay.hideSuggestions();
+  }
+
   private class SuggestOracleImpl extends SuggestOracle {
 
     @Override

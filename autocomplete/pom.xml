@@ -4,7 +4,7 @@
   <groupId>com.zybnet</groupId>
   <artifactId>vaadin-autocomplete</artifactId>
   <packaging>jar</packaging>
-  <version>1.1.0_FIXED</version>
+  <version>1.1.1</version>
   <name>AutocompleteField for Vaadin</name>
   <description>Autocomplete addon for Vaadin</description>
   <parent>

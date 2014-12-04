@@ -40,7 +40,7 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, Focus
   private boolean trimQuery = true;
   // TODO this field is not used maybe we should remove it?
   private int minimumQueryCharacters = 3;
-  private String lastSuggestedText = "";
+  private String lastSuggestedText;
 
   public VAutocompleteField() {
     oracle = new SuggestOracleImpl();

@@ -4,7 +4,7 @@
   <groupId>com.zybnet</groupId>
   <artifactId>vaadin-autocomplete</artifactId>
   <packaging>jar</packaging>
-  <version>1.1.1</version>
+  <version>1.1.2-dev</version>
   <name>AutocompleteField for Vaadin</name>
   <description>Autocomplete addon for Vaadin</description>
   <parent>
@@ -65,12 +65,12 @@
   </dependencies>
   <distributionManagement>
     <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <id>citi-artifactory-snapshots</id>
+      <url>http://cop-ci-dev:8081/artifactory/libs-snapshot-local</url>
     </snapshotRepository>
     <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <id>citi-artifactory</id>
+      <url>http://cop-ci-dev:8081/artifactory/libs-release-local</url>
     </repository>
   </distributionManagement>
   <build>
@@ -179,17 +179,6 @@
         <artifactId>jetty-maven-plugin</artifactId>
         <version>9.2.1.v20140609</version>
       </plugin>
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.2</version>
-        <extensions>true</extensions>
-        <configuration>
-           <serverId>ossrh</serverId>
-           <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-           <autoReleaseAfterClose>true</autoReleaseAfterClose>
-        </configuration>
-      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
@@ -270,20 +259,6 @@
                 <id>attach-javadocs</id>
                 <goals>
                   <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.5</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
                 </goals>
               </execution>
             </executions>

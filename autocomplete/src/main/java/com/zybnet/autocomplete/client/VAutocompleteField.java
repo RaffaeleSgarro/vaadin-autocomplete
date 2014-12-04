@@ -148,6 +148,7 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, Focus
   }
 
   public void setDisplayedText(String text) {
+    lastSuggestedText = text;
     suggestBox.getValueBox().setText(text);
   }
 

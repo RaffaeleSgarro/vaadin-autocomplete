@@ -8,6 +8,14 @@ public class AutocompleteFieldSuggestion implements Serializable {
   private Integer id;
   private String displayString;
 
+  public AutocompleteFieldSuggestion() {
+  }
+
+  public AutocompleteFieldSuggestion(final Integer id, final String displayString) {
+    this.id = id;
+    this.displayString = displayString;
+  }
+
   public String getDisplayString() {
     return displayString;
   }

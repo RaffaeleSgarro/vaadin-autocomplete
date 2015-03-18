@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.vaadin.ui.AbstractField;
+import com.zybnet.autocomplete.shared.AutocompleteClientRpc;
 import com.zybnet.autocomplete.shared.AutocompleteServerRpc;
 import com.zybnet.autocomplete.shared.AutocompleteState;
 import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
@@ -28,8 +29,8 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
   }
   
   public void clearChoices() {
-    getState().suggestions = Collections.emptyList();
-    items = new HashMap<Integer, E>();
+    getRpcProxy(AutocompleteClientRpc.class).showSuggestions(Collections.<AutocompleteFieldSuggestion>emptyList());
+    items.clear();
   }
   
   @Override
@@ -78,17 +79,18 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
     getState().enabled = enabled;
   }
 
-  public void addSuggestion(E id, String title) {
-    int index = getState().suggestions.size();
-    items.put(index, id);
-    List<AutocompleteFieldSuggestion> newSuggestionList = new ArrayList<AutocompleteFieldSuggestion>(getState().suggestions);
-    AutocompleteFieldSuggestion suggestion = new AutocompleteFieldSuggestion();
-    suggestion.setId(index);
-    suggestion.setDisplayString(title);
-    newSuggestionList.add(suggestion);
-    getState().suggestions = newSuggestionList;
+  public void showSuggestions(final Map<E, String> suggestions) {
+    items.clear();
+    final List<AutocompleteFieldSuggestion> list = new ArrayList<AutocompleteFieldSuggestion>();
+    int i = 0;
+    for (Map.Entry<E, String> entry : suggestions.entrySet()) {
+        items.put(i, entry.getKey());
+        list.add(new AutocompleteFieldSuggestion(i, entry.getValue()));
+        i++;
+    }
+    getRpcProxy(AutocompleteClientRpc.class).showSuggestions(list);
   }
-  
+
   public void setMinimumQueryCharacters(int minimumQueryCharacters) {
     getState().minimumQueryCharacters = minimumQueryCharacters;
   }

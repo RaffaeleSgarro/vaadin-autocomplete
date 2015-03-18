@@ -26,9 +26,8 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, Focus
 
   public static final String CLASSNAME = "v-autocomplete";
 
-  private final SuggestOracle oracle;
   private final SimpleSuggestionsDisplay suggestionsDisplay;
-  private final VTextField textField;
+
   private final SuggestBox suggestBox;
 
   private int delayMillis = 300;
@@ -39,12 +38,11 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, Focus
   private TextChangeListener textChangeHandler;
   private boolean trimQuery = true;
   private int minimumQueryCharacters = 3;
-  private String lastSuggestedText;
 
   public VAutocompleteField() {
-    oracle = new SuggestOracleImpl();
+    final SuggestOracle oracle = new SuggestOracleImpl();
     suggestionsDisplay = new SimpleSuggestionsDisplay(this);
-    textField = GWT.create(VTextField.class);
+    final VTextField textField = GWT.create(VTextField.class);
     suggestBox = new SuggestBox(oracle, textField, suggestionsDisplay);
     initWidget(suggestBox);
     suggestBox.getValueBox().addKeyUpHandler(this);
@@ -55,8 +53,6 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, Focus
   @Override
   protected void onAttach() {
     super.onAttach();
-    // hide suggestion auto-popup on restore state
-    suggestionsDisplay.hideSuggestions();
   }
 
   private class SuggestOracleImpl extends SuggestOracle {
@@ -147,8 +143,12 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, Focus
   }
 
   public void setDisplayedText(String text) {
-    lastSuggestedText = text;
     suggestBox.getValueBox().setText(text);
+    hideSuggestions();
+  }
+
+  private void hideSuggestions() {
+    suggestions = Collections.emptyList();
     suggestionsDisplay.hideSuggestions();
   }
 
@@ -197,8 +197,7 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, Focus
   private void processChangeEvent() {
     final String suggestBoxText = suggestBox.getText();
 
-    if (!suggestBoxText.equals(lastSuggestedText) && textChangeHandler != null) {
-      lastSuggestedText = suggestBoxText;
+    if (textChangeHandler != null) {
       textChangeHandler.onTextChange(suggestBoxText);
     }
   }

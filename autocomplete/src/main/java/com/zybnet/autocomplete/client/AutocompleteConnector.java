@@ -1,6 +1,7 @@
 package com.zybnet.autocomplete.client;
 
 import com.zybnet.autocomplete.server.AutocompleteField;
+import com.zybnet.autocomplete.shared.AutocompleteClientRpc;
 import com.zybnet.autocomplete.shared.AutocompleteServerRpc;
 import com.zybnet.autocomplete.shared.AutocompleteState;
 import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
@@ -12,6 +13,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+
+import java.util.List;
 
 @Connect(AutocompleteField.class)
 @SuppressWarnings("serial")
@@ -25,7 +28,18 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
     getWidget().addSelectionHandler(this);
     getWidget().addTextChangeHandler(this);
   }
-  
+
+  @Override
+  protected void init() {
+    super.init();
+    registerRpc(AutocompleteClientRpc.class, new AutocompleteClientRpc() {
+      @Override
+      public void showSuggestions(final List<AutocompleteFieldSuggestion> suggestions) {
+        getWidget().setSuggestions(suggestions);
+      }
+    });
+  }
+
   @Override
   protected VAutocompleteField createWidget() {
     return GWT.create(VAutocompleteField.class);
@@ -39,11 +53,6 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
   @Override
   public AutocompleteState getState() {
     return (AutocompleteState) super.getState();
-  }
-  
-  @OnStateChange("suggestions")
-  private void updateSuggestions() {
-    getWidget().setSuggestions(getState().suggestions);
   }
   
   @OnStateChange("delayMillis")

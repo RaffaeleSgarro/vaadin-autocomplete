@@ -11,6 +11,9 @@ import com.zybnet.autocomplete.server.AutocompleteField;
 import com.zybnet.autocomplete.server.AutocompleteQueryListener;
 import com.zybnet.autocomplete.server.AutocompleteSuggestionPickedListener;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 @Theme("mytheme")
 @SuppressWarnings("serial")
 public class DevUI extends UI {
@@ -62,9 +65,11 @@ public class DevUI extends UI {
   }
   
   private void handleSearchQuery(AutocompleteField<Integer> field, String query) {
+    final Map<Integer, String> suggestions = new LinkedHashMap<Integer, String>();
     for (int i = 0; i < 10; i++) {
-        field.addSuggestion(i, i + ": " + query);
+        suggestions.put(i, i + ": " + query);
     }
+    field.showSuggestions(suggestions);
   }
 
 }

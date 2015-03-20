@@ -3,7 +3,9 @@ package com.zybnet.app;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -99,9 +101,11 @@ public class DemoUI extends UI {
     try {
       List<WikipediaPage> result = wikiSearch(query);
       createPageButton.setVisible(result.isEmpty());
+      final Map<WikipediaPage, String> pages = new LinkedHashMap<WikipediaPage, String>();
       for (WikipediaPage page : result) {
-        field.addSuggestion(page, page.getTitle());
+        pages.put(page, page.getTitle());
       }
+      field.showSuggestions(pages);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

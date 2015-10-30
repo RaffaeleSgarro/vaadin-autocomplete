@@ -61,7 +61,7 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
 	  getWidget().setEnabled(getState().enabled);
   }
 
-  @OnStateChange("text")
+  @OnStateChange({"text", "syncId"})
   void setText() {
     getWidget().setDisplayedText(getState().text);
   }

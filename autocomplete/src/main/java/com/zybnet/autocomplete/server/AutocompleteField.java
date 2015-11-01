@@ -39,7 +39,7 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
   }
   
   public void onQuery(String query) {
-	setSyncId(syncId++);
+    setSyncId(syncId++);
     clearChoices();
     if (queryListener != null) {
       queryListener.handleUserQuery(this, query);

@@ -97,3 +97,4 @@ Credits
 =======
 
 Thanks to Jeff T. Thorson <jtt@thorson.net> for his patches
+Thanks to Ziga Ciglar <ziga.ciglar@gmail.com> for his patches

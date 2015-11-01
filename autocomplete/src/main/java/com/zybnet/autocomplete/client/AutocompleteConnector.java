@@ -41,7 +41,7 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
     return (AutocompleteState) super.getState();
   }
   
-  @OnStateChange("suggestions")
+  @OnStateChange({"suggestions", "syncId"})
   private void updateSuggestions() {
     getWidget().setSuggestions(getState().suggestions);
   }
@@ -61,7 +61,7 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
 	  getWidget().setEnabled(getState().enabled);
   }
 
-  @OnStateChange("text")
+  @OnStateChange({"text", "syncId"})
   void setText() {
     getWidget().setDisplayedText(getState().text);
   }

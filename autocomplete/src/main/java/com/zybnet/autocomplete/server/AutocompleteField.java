@@ -17,6 +17,7 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
   private AutocompleteQueryListener<E> queryListener;
   private AutocompleteSuggestionPickedListener<E> suggestionPickedListener;
   private Map<Integer, E> items = new HashMap<Integer, E>();
+  private int syncId = 0;
 
   public AutocompleteField() {
     registerRpc(this, AutocompleteServerRpc.class);
@@ -38,6 +39,7 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
   }
   
   public void onQuery(String query) {
+    setSyncId(syncId++);
     clearChoices();
     if (queryListener != null) {
       queryListener.handleUserQuery(this, query);
@@ -60,6 +62,10 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
 
   public void setDelay(int delayMillis) {
     getState().delayMillis = delayMillis;
+  }
+  
+  public void setSyncId(int syncId) {
+    getState().syncId = syncId;
   }
   
   public void setText(String text) {

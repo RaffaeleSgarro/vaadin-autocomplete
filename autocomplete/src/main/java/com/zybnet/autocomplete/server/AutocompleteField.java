@@ -16,6 +16,7 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
   
   private AutocompleteQueryListener<E> queryListener;
   private AutocompleteSuggestionPickedListener<E> suggestionPickedListener;
+  private AutocompleteTextFieldResetListener<E> textFieldResetListener;
   private Map<Integer, E> items = new HashMap<Integer, E>();
   private int syncId = 0;
 
@@ -55,9 +56,18 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
     setText(suggestion.getDisplayString());
     if (suggestionPickedListener != null) suggestionPickedListener.onSuggestionPicked(items.get(suggestion.getId()));
   }
-  
+
   public void setSuggestionPickedListener(AutocompleteSuggestionPickedListener<E> listener) {
     this.suggestionPickedListener = listener;
+  }
+
+  @Override
+  public void onTextFieldReset() {
+    if (textFieldResetListener !=null) textFieldResetListener.onReset(this);
+  }
+
+  public void setTextFieldResetListener(AutocompleteTextFieldResetListener<E> listener) {
+    this.textFieldResetListener = listener;
   }
 
   public void setDelay(int delayMillis) {

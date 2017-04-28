@@ -1,17 +1,17 @@
 package com.zybnet.autocomplete.client;
 
-import com.zybnet.autocomplete.server.AutocompleteField;
-import com.zybnet.autocomplete.shared.AutocompleteServerRpc;
-import com.zybnet.autocomplete.shared.AutocompleteState;
-import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
-import com.vaadin.client.annotations.OnStateChange;
-import com.vaadin.client.communication.RpcProxy;
-import com.vaadin.client.ui.AbstractComponentConnector;
-import com.vaadin.shared.ui.Connect;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.vaadin.client.annotations.OnStateChange;
+import com.vaadin.client.communication.RpcProxy;
+import com.vaadin.client.ui.AbstractComponentConnector;
+import com.vaadin.shared.ui.Connect;
+import com.zybnet.autocomplete.server.AutocompleteField;
+import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
+import com.zybnet.autocomplete.shared.AutocompleteServerRpc;
+import com.zybnet.autocomplete.shared.AutocompleteState;
 
 @Connect(AutocompleteField.class)
 @SuppressWarnings("serial")

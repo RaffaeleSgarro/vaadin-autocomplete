@@ -3,3 +3,12 @@ autocomplete/src/main/webapp/VAADIN/widgetsets
 demo/src/main/webapp/VAADIN/widgetsets
 demo/src/main/webapp/VAADIN/themes/mytheme/styles.css
 demo/target
+
+*.iml
+.idea/libraries
+.idea/compiler.xml
+.idea/misc.xml
+.idea/vcs.xml
+.idea/modules.xml
+.idea/workspace.xml
+.idea/kotlinc.xml

@@ -10,6 +10,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.zybnet.autocomplete.server.AutocompleteField;
 import com.zybnet.autocomplete.server.AutocompleteQueryListener;
 import com.zybnet.autocomplete.server.AutocompleteSuggestionPickedListener;
+import com.zybnet.autocomplete.server.AutocompleteTextFieldResetListener;
 
 @SuppressWarnings("serial")
 public class DevUI extends UI {
@@ -33,6 +34,8 @@ public class DevUI extends UI {
     layout.setWidth("800px");
     layout.setHeight(null);
 
+    search1.setCaption("Search 1");
+    search2.setCaption("Search 2");
 
     HorizontalLayout row = new HorizontalLayout();
     
@@ -81,6 +84,13 @@ public class DevUI extends UI {
         handleSuggestionSelection(page);
       }
     });
+
+    search.setTextFieldResetListener(new AutocompleteTextFieldResetListener<Integer>() {
+      @Override
+      public void onReset(AutocompleteField<Integer> field) {
+        handleTextFieldReset(field);
+      }
+    });
   }
 
   protected void handleSuggestionSelection(Integer suggestion) {
@@ -93,4 +103,7 @@ public class DevUI extends UI {
     }
   }
 
+  private void handleTextFieldReset(AutocompleteField<Integer> field){
+    Notification.show("Reset "+field.getCaption());
+  }
 }

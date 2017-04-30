@@ -80,5 +80,8 @@ public class AutocompleteConnector extends AbstractComponentConnector implements
   @Override
   public void onTextChange(String text) {
     getState().text = text;
+    if (text.trim().length() == 0) {
+      RpcProxy.create(AutocompleteServerRpc.class, this).onTextFieldReset();
+    }
   }
 }

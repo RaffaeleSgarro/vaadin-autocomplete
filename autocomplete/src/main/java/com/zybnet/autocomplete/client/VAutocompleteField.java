@@ -11,10 +11,10 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestBox.SuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.vaadin.client.Focusable;
 import com.vaadin.client.ui.VTextField;
@@ -23,6 +23,7 @@ import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 public class VAutocompleteField extends Composite implements KeyUpHandler, Focusable {
 
   public static final String CLASSNAME = "v-autocomplete";
+  private static final String ATTRIBUTE_PLACEHOLDER = "placeHolder";
   
   private final SuggestOracle oracle;
   private final SimpleSuggestionsDisplay suggestionsDisplay;
@@ -36,7 +37,6 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, Focus
   private boolean isInitiatedFromServer = false;
   private TextChangeListener textChangeHandler;
   private boolean trimQuery = true;
-  // TODO this field is not used maybe we should remove it?
   private int minimumQueryCharacters = 3;
   
   public VAutocompleteField() {
@@ -54,6 +54,13 @@ public class VAutocompleteField extends Composite implements KeyUpHandler, Focus
     super.onAttach();
     // hide suggestion auto-popup on restore state
     suggestionsDisplay.hideSuggestions();
+  }
+
+  public void setInputPrompt(String inputPrompt) {
+    if (inputPrompt == null || inputPrompt.trim().isEmpty())
+      suggestBox.getValueBox().getElement().removeAttribute(ATTRIBUTE_PLACEHOLDER);
+    else
+      suggestBox.getValueBox().getElement().setAttribute(ATTRIBUTE_PLACEHOLDER, inputPrompt);
   }
 
   private class SuggestOracleImpl extends SuggestOracle {

@@ -37,6 +37,7 @@ public class DevUI extends UI {
     HorizontalLayout row = new HorizontalLayout();
     
     layout.addComponents(search1, row);
+    search1.setInputPrompt("write something here");
 
     row.setSizeFull();
     Label lbl = new Label("Hello World!");

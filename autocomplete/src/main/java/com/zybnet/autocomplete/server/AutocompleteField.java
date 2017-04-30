@@ -1,15 +1,11 @@
 package com.zybnet.autocomplete.server;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.vaadin.ui.AbstractField;
+import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 import com.zybnet.autocomplete.shared.AutocompleteServerRpc;
 import com.zybnet.autocomplete.shared.AutocompleteState;
-import com.zybnet.autocomplete.shared.AutocompleteFieldSuggestion;
 
 @SuppressWarnings("serial")
 public class AutocompleteField<E> extends AbstractField<String> implements AutocompleteServerRpc {
@@ -101,5 +97,9 @@ public class AutocompleteField<E> extends AbstractField<String> implements Autoc
   
   public void setTrimQuery(boolean trimQuery) {
     getState().trimQuery = trimQuery;
+  }
+
+  public void setInputPrompt(String inputPrompt) {
+    getState().inputPrompt = inputPrompt;
   }
 }
